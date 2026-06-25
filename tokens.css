@@ -1,0 +1,102 @@
+/* ============================================================
+   OrchOS · Design System A (brutalist-couture) — Design Tokens
+   Quadrante: Soberania (aberto·local·privado) + Desigualdade ALTA.
+   "open-source virou grife: artesanato de elite, mega-customizável,
+    mas com funcionalidades fechadas e curadas." — o Linux que virou luxo.
+
+   Estes tokens são o ESTADO PADRÃO. Em A, o usuário tem soberania
+   estética total: o Atelier reescreve --accent, --font-ui, os raios e
+   o wallpaper ao vivo (document.documentElement.style). A personalização
+   é gratuita e celebrada; a FUNÇÃO é que tem tier (Livre/Plus/Atelier).
+   ============================================================ */
+:root {
+  /* ---- Cor · fundos (tinta / ônix arroxeado) ---- */
+  --bg-desktop:   #0E0C12;  /* void */
+  --bg-window:    #131019;  /* paper do editor */
+  --surface-1:    #1A1622;  /* painéis (rails, janelas) */
+  --surface-2:    #231D30;  /* cards, avatares */
+  --surface-3:    #2E2640;  /* ativo / seleção */
+
+  /* ---- Cor · linhas ---- */
+  --line-hairline: #2A2338;
+  --line-border:   #3C3352;
+
+  /* ---- Cor · texto ---- */
+  --text-primary:    #ECEAF5;
+  --text-secondary:  #C9C2DD;
+  --text-tertiary:   #8C84A6;
+  --text-quaternary: #5F5878;
+  --text-inverse:    #14101C;
+  --text-doc:        #BDB6D0;  /* corpo de documento */
+
+  /* ---- Cor · ícones ---- */
+  --icon-default: #B0A8C8;
+  --icon-dim:     #6A6388;
+  --bubble-user:  #ECEAF5;
+
+  /* ---- Acento (violeta generativo — a "cor de A", customizável) ---- */
+  --accent:        #8B5CF6;
+  --accent-bright: #A78BFA;
+  --accent-dim:    #6D4FC4;
+  --accent-rgb:    139, 92, 246;   /* acento em R,G,B (p/ rgba no fundo generativo) */
+  --accent2-rgb:   167, 139, 250;  /* acento bright em R,G,B */
+  --accent-ghost:  rgba(139, 92, 246, 0.12);
+  --accent-line:   rgba(139, 92, 246, 0.34);
+  /* gradiente generativo (violeta → magenta) — assinatura visual de A */
+  --accent-grad:   linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%);
+
+  /* ---- Tiers (o motor da desigualdade-alta) ---- */
+  --tier-livre:   #6B6388;  /* grátis · neutro */
+  --tier-plus:    #8B5CF6;  /* violeta · pago */
+  --tier-atelier: #C9A24B;  /* latão/ouro · luxo curado */
+  --lock:         #C9A24B;  /* cor do cadeado = ouro de grife */
+
+  /* ---- Vidro (glassmorphism real via backdrop-filter) ---- */
+  --glass-fill:   rgba(20, 16, 26, 0.55);
+  --glass-blur:   18px;
+
+  /* ---- Grid exposto (estética brutalist · config à mostra) ---- */
+  --grid-color: rgba(139, 92, 246, 0.06);
+  --grid-size:  32px;
+
+  /* ---- Tipografia (Space Grotesk + JetBrains Mono — customizável) ---- */
+  --font-ui:      'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --font-display: 'Space Grotesk', var(--font-mono);
+  --fs-display: 46px;
+  --fs-title:   18px;
+  --fs-h1:      26px;
+  --fs-h2:      20px;
+  --fs-body:    15px;
+  --fs-ui:      14px;
+  --fs-label:   12px;
+  --fs-caption: 11px;
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+  --lh-tight: 1.15;
+  --lh-read:  1.7;
+  --ls-mono:  0.14em;
+
+  /* ---- Espaçamento (base 8) ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+
+  /* ---- Raios (brutalist: afiados — o Atelier reescreve via --r-base) ---- */
+  --r-base: 5px;
+  --r-sm: calc(var(--r-base) * 0.6);
+  --r-md: var(--r-base);
+  --r-lg: calc(var(--r-base) * 1.6);
+  --r-xl: calc(var(--r-base) * 2.4);
+
+  /* ---- Elevação (couture: offset duro + sombra) ---- */
+  --e1: 0 1px 0 rgba(0,0,0,0.5), 0 8px 22px rgba(0,0,0,0.38);
+  --e2: 0 2px 0 rgba(0,0,0,0.5), 0 14px 44px rgba(0,0,0,0.5);
+  --e3: 0 3px 0 rgba(0,0,0,0.55), 0 34px 90px rgba(0,0,0,0.6);
+
+  /* ---- Anatomia do shell ---- */
+  --rail-w:      244px;
+  --chat-w:      360px;
+  --statusbar-h: 48px;
+}

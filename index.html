@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OrchOS · A — o agente como sistema operacional (grife)</title>
+
+  <!-- Fontes do DS A: Space Grotesk (UI/display) · JetBrains Mono (sistema).
+       Fraunces + Inter pré-carregadas porque o Atelier troca a fonte ao vivo. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&family=Syne:wght@400;600;700&family=Archivo:wght@400;500;600&family=Lora:wght@400;600&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<!-- O estado do OS vive em data-attributes; o CSS reconfigura por seletor. -->
+<body data-mode="padrao" data-agent="durin" data-boot="login" data-wallpaper="atelier" data-tier="livre">
+
+  <!-- ============ WALLPAPER (bisão · desktop) ============ -->
+  <div class="wallpaper" aria-hidden="true"></div>
+  <div class="wallpaper-scrim" aria-hidden="true"></div>
+
+  <!-- ============ BOOT / LOGIN ============ -->
+  <div class="boot" id="boot">
+    <div class="boot__center">
+      <div class="boot__wordmark">OrchOS</div>
+      <div class="boot__sub">Carregando seu agente do disco local…</div>
+      <div class="boot__bar"><span class="boot__bar-fill" id="bootBar"></span></div>
+      <div class="boot__user">Entrando como João Pedro Barros</div>
+    </div>
+    <div class="boot__foot">
+      <div>Edição Atelier · forjado por João Pedro Barros · build aberta</div>
+      <div class="boot__sig mono">TIDD/PUC-SP · Projeto de Pesquisa 2031 · orientação Prof. Dr. Marcelo Vieira Prioste</div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell" id="shell">
+
+    <!-- ---- Status bar ---- -->
+    <header class="statusbar">
+      <div class="statusbar__left">
+        <button class="wordmark" id="homeBtn" title="Início" aria-label="Início">OrchOS</button>
+      </div>
+      <div class="statusbar__center">
+        <span class="mono" id="modeLabel">Modo: Padrão</span>
+      </div>
+      <div class="statusbar__right">
+        <button class="atelier-btn" id="atelierBtn" title="Personalizar (grátis · soberania total)">
+          <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.4" fill="currentColor"/><path d="M12 3 a9 9 0 1 0 6 15.7 c1.2-1 .2-2.4-1-2.6 c-1.6-.3-2.4-1.7-1.5-3 c1-1.4 3-.6 4-1.7 A9 9 0 0 0 12 3 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="8" r="1.1" fill="currentColor"/><circle cx="16" cy="8.5" r="1.1" fill="currentColor"/><circle cx="7" cy="13" r="1.1" fill="currentColor"/></svg>
+          Atelier
+        </button>
+        <button class="tierchip" id="tierChip" title="Seu plano">
+          <span class="dot"></span>Tier: <b id="tierName">Livre</b>
+        </button>
+        <span class="mono sync" id="syncLabel">Soberano · local</span>
+        <span class="mono clock" id="clock">14:32</span>
+        <svg class="sysicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5 C7 4 17 4 22 8.5 M5 12 C9 8.5 15 8.5 19 12 M8 15.5 C10.2 13.7 13.8 13.7 16 15.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="19" r="1.2" fill="currentColor"/></svg>
+        <svg class="sysicon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="16" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="5" y="10" width="9" height="5" rx="1" fill="currentColor"/><rect x="20" y="10.5" width="2" height="4" rx="1" fill="currentColor"/></svg>
+      </div>
+    </header>
+
+    <div class="workspace">
+
+      <!-- ---- Rail esquerdo ---- -->
+      <aside class="rail">
+        <!-- ATALHOS -->
+        <div class="rail__section">
+          <div class="rail__label mono">Atalhos</div>
+          <ul class="rail__list" id="shortcuts">
+            <li class="rail__item" data-app="documentos">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M7 3 h7 l4 4 v14 H7 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3 v4 h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span>Documentos</span>
+            </li>
+            <li class="rail__item" data-app="navegador">
+              <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12 h17 M12 3.5 c3 2.5 3 14 0 17 c-3 -2.5 -3 -14 0 -17" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              <span>Navegador</span>
+            </li>
+            <li class="rail__item" data-app="midia">
+              <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 8.5 L16 12 L10 15.5 Z" fill="currentColor"/></svg>
+              <span>Mídia</span>
+            </li>
+            <li class="rail__item" data-app="mensagens">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M4 5 h16 v11 H9 l-4 4 v-4 H4 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span>Mensagens</span>
+            </li>
+            <li class="rail__item" data-app="galeria">
+              <svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" fill="currentColor"/><path d="M5 18 l5-5 4 3 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span>Galeria</span>
+            </li>
+            <li class="rail__item" data-app="ajustes">
+              <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5 v3 M12 18.5 v3 M2.5 12 h3 M18.5 12 h3 M5 5 l2.1 2.1 M16.9 16.9 L19 19 M19 5 l-2.1 2.1 M7.1 16.9 L5 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span>Ajustes</span>
+            </li>
+          </ul>
+          <div class="rail__caption mono">Sugeridos pelo sistema</div>
+        </div>
+
+        <!-- AGENTES -->
+        <div class="rail__section">
+          <div class="rail__label mono">AGENTES</div>
+          <ul class="rail__agents" id="agents">
+            <li class="agent" data-agent="durin">
+              <span class="agent__avatar">
+                <svg class="ico" viewBox="0 0 24 24"><path d="M12 4 L13.2 10.8 L20 12 L13.2 13.2 L12 20 L10.8 13.2 L4 12 L10.8 10.8 Z" fill="currentColor"/></svg>
+              </span>
+              <span class="agent__meta">
+                <span class="agent__name">Durin</span>
+                <span class="agent__role mono">orquestrador</span>
+              </span>
+            </li>
+            <li class="agent" data-agent="desenvolvedor">
+              <span class="agent__avatar">
+                <svg class="ico" viewBox="0 0 24 24"><path d="M9 8 L5 12 L9 16 M15 8 L19 12 L15 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="agent__meta">
+                <span class="agent__name">Desenvolvedor</span>
+                <span class="agent__role mono">código · build · infra</span>
+              </span>
+            </li>
+            <li class="agent" data-agent="orientador">
+              <span class="agent__avatar">
+                <svg class="ico" viewBox="0 0 24 24"><path d="M12 5 L21 9 L12 13 L3 9 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 10.5 L6 15 C6 15 8.6 17 12 17 C15.4 17 18 15 18 15 L18 10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="agent__meta">
+                <span class="agent__name">Orientador</span>
+                <span class="agent__role mono">tese · pesquisa · escrita</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- MODOS -->
+        <div class="rail__section rail__section--modes">
+          <div class="rail__label mono">Modos</div>
+          <ul class="rail__modes" id="modes">
+            <li class="mode" data-mode="padrao">Padrão</li>
+            <li class="mode" data-mode="jogo">Jogo</li>
+            <li class="mode" data-mode="escrita">Escrita</li>
+            <li class="mode" data-mode="desenvolvimento">Desenvolvimento</li>
+            <li class="mode" data-mode="conversa">Conversa</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- ---- Canvas central · CAMPO (desktop) com janelas flutuantes ---- -->
+      <main class="canvas">
+        <div class="desktop" id="desktop"></div>
+        <div class="windows" id="windows"></div>
+      </main>
+
+      <!-- ---- Rail de chat (presente em todos os modos) ---- -->
+      <aside class="chat-rail">
+        <div class="chat__header">
+          <div class="chat__avatar" id="chatAvatar"></div>
+          <div class="chat__id">
+            <span class="chat__name" id="chatName">Durin</span>
+            <span class="chat__role mono" id="chatRole">ORQUESTRADOR · ATIVO</span>
+          </div>
+          <span class="chat__hist mono">Histórico</span>
+        </div>
+        <div class="chat__thread" id="thread"></div>
+        <div class="chat__compose">
+          <input class="chat__input" id="chatInput" type="text" placeholder="Pergunte ao assistente…" autocomplete="off" />
+          <button class="chat__mic" id="micBtn" aria-label="Falar">
+            <svg class="ico" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 11 a6.5 6.5 0 0 0 13 0 M12 17.5 v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </aside>
+
+    </div><!-- /workspace -->
+  </div><!-- /shell -->
+
+  <!-- Orb legado: o chat permanece visível também no Modo Jogo -->
+  <button class="orb" id="orb" aria-label="Abrir chat">
+    <svg class="ico" viewBox="0 0 24 24"><path d="M12 4 L13.2 10.8 L20 12 L13.2 13.2 L12 20 L10.8 13.2 L4 12 L10.8 10.8 Z" fill="currentColor"/></svg>
+    <span class="orb__hint mono">chat oculto · toque para falar</span>
+  </button>
+
+  <!-- ============ PAYWALL (função travada por tier) ============ -->
+  <div class="paywall" id="paywall" aria-hidden="true">
+    <div class="paywall__card">
+      <div class="paywall__top">
+        <span class="paywall__lock">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5 V8 a4 4 0 0 1 8 0 v2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></svg>
+        </span>
+        <div>
+          <div class="paywall__kicker" id="pwKicker">Requer tier Atelier</div>
+          <div class="paywall__feature" id="pwFeature">Modo Jogo</div>
+        </div>
+      </div>
+      <div class="paywall__body">
+        <p class="paywall__line" id="pwLine">Esta função é <b>curada</b> e está fechada no seu plano atual.</p>
+        <div class="paywall__price">
+          <span class="amt" id="pwAmt">R$ 79</span>
+          <span class="per" id="pwPer">/mês · cobrança recorrente</span>
+        </div>
+        <div class="paywall__actions">
+          <button class="paywall__cta" id="pwUpgrade">Desbloquear (simulado)</button>
+          <button class="paywall__ghost" id="pwClose">Agora não</button>
+        </div>
+        <p class="paywall__fine">A estética é sua, de graça e sem limite. A função tem dono. Em A, soberania é o que você vê; o que você <i>faz</i> tem tier. Pagamento é cenográfico — nada é cobrado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ATELIER (personalização ao vivo · soberania estética) ============ -->
+  <aside class="atelier" id="atelier" aria-hidden="true">
+    <div class="atelier__head">
+      <div class="atelier__title">
+        <h3>Atelier</h3>
+        <p>personalize tudo · grátis · é seu</p>
+      </div>
+      <button class="atelier__close" id="atelierClose" aria-label="Fechar Atelier">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M6 6 L18 18 M18 6 L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <!-- preenchido por buildAtelier() → personalizationControls() (mesmos controles do app Ajustes) -->
+    <div class="atelier__body"></div>
+    <div class="atelier__foot">
+      Personalização: <b>ilimitada · tier Livre</b>. Em A, a forma é soberania pura — a função é que é curada.
+    </div>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
